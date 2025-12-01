@@ -63,52 +63,74 @@ class BinarySearchTree:
    
     # Removes the node with the matching key from the tree.
     def remove(self, key):
-        parent = None
-        current_node = self.root
-        
-        # Search for the node.
-        while current_node is not None:
-        
-            # Check if current_node has a matching key.
-            if current_node.key == key: 
-                if current_node.left is None and current_node.right is None:   # Case 1
-                    if parent is None: # Node is root
-                        self.root = None
-                    elif parent.left is current_node: 
-                        parent.left = None
-                    else:
-                        parent.right = None
-                    return  # Node found and removed
-                elif current_node.left is not None and current_node.right is None:  # Case 2
-                    if parent is None: # Node is root
-                        self.root = current_node.left
-                    elif parent.left is current_node: 
-                        parent.left = current_node.left
-                    else:
-                        parent.right = current_node.left
-                    return  # Node found and removed
-                elif current_node.left is None and current_node.right is not None:  # Case 2
-                    if parent is None: # Node is root
-                        self.root = current_node.right
-                    elif parent.left is current_node:
-                        parent.left = current_node.right
-                    else:
-                        parent.right = current_node.right
-                    return  # Node found and removed
-                else:                                    # Case 3
-                    # Find successor (leftmost child of right subtree)
-                    successor = current_node.right
-                    while successor.left is not None:
-                        successor = successor.left
-                    current_node.key = successor.key      # Copy successor to current node
-                    parent = current_node
-                    current_node = current_node.right     # Remove successor from right subtree
-                    key = parent.key                      # Loop continues with new key
-            elif current_node.key < key: # Search right
-                parent = current_node
-                current_node = current_node.right
-            else:                        # Search left
-                parent = current_node
-                current_node = current_node.left
-                
-        return # Node not found
+        # Public remove method. Avg runtime O(h)
+        self.root = self._remove_recursive(self.root, key)
+
+    def _remove_recursive(self, current_node, key):
+        # Recursive helper to remove a node
+        # Avg runtime O(h)
+        if current_node is None:
+            return None
+
+        if key < current_node.key:
+            # Key is in the left subtree.
+            current_node.left = self._remove_recursive(current_node.left, key)
+        elif key > current_node.key:
+            # Key is in the right subtree.
+            current_node.right = self._remove_recursive(current_node.right, key)
+        else:
+            # Found the node to remove.
+
+            # Case 1: no children.
+            if current_node.left is None and current_node.right is None:
+                return None
+
+            # Case 2: one child (right only).
+            if current_node.left is None:
+                return current_node.right
+
+            # Case 3: one child (left only).
+            if current_node.right is None:
+                return current_node.left
+
+            # Case 4: two children.
+            # Find inorder successor (smallest in right subtree).
+            successor = self._find_min(current_node.right)
+            # Copy successor's key and value into current node.
+            current_node.key = successor.key
+            current_node.value = successor.value
+            # Remove the successor from the right subtree.
+            current_node.right = self._remove_recursive(current_node.right, successor.key)
+
+        return current_node
+
+    def _find_min(self, node):
+        # Find smallest key in a subtree
+        # Worst runtime O(h)
+        while node.left is not None:
+            node = node.left
+        return node
+    
+    def inorder_traversal(self, node, visit):
+    # Inorder is left -> node -> right 
+    # Runtime O(n) because each node is visited once
+        if node is not None:
+            self.inorder_traversal(node.left, visit)   # visit left subtree
+            visit(node)                                # process current node
+            self.inorder_traversal(node.right, visit)  # visit right subtree
+
+    def preorder_traversal(self, node, visit):
+        # Preorder is node -> left -> right 
+        # Runtime O(n) for a full tree traversal
+        if node is not None:
+            visit(node)                                # process current node first
+            self.preorder_traversal(node.left, visit)  # visit left subtree
+            self.preorder_traversal(node.right, visit) # visit right subtree
+
+    def postorder_traversal(self, node, visit):
+        # Postorder is left -> right -> node 
+        # Runtime O(n) because each node is visited once.
+        if node is not None:
+            self.postorder_traversal(node.left, visit)  # visit left subtree
+            self.postorder_traversal(node.right, visit) # visit right subtree
+            visit(node)                                 # process node after children
