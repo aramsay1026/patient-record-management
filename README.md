@@ -1,6 +1,6 @@
 # **Patient Record Management System**
 
-A Python program that uses a **Binary Search Tree (BST)** to efficiently store, search, delete, and visualize patient medical records.
+A Python program that uses a Binary Search Tree (BST) to efficiently store, search, delete, and visualize patient medical records.
 It demonstrates core data structures concepts including tree traversal, node-based storage, recursive algorithms, and Graphviz-based visualization.
 
 ## **What It Does**
@@ -9,8 +9,8 @@ It demonstrates core data structures concepts including tree traversal, node-bas
 * Stores each patient as a custom `PatientRecord` object
 * Supports searching patient records by ID
 * Supports deletion and insertion of records
-* Displays patient data using **inorder**, **preorder**, and **postorder** traversals
-* Generates **Graphviz** visualizations of the BST structure
+* Displays patient data using inorder, preorder, and postorder traversals
+* Generates Graphviz visualizations of the BST structure
 * Demonstrates object-oriented programming and data structure design
 
 ## **Technologies Used**
@@ -38,7 +38,7 @@ cd patient-record-management
 pip install graphviz
 ```
 
-If you're using Anaconda:
+**If you're using Anaconda:**
 
 ```bash
 conda install graphviz
