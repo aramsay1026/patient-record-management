@@ -16,7 +16,7 @@ class PatientRecord:
         self.body_temperature = body_temperature
 
     def __str__(self):
-        # Control how the record prints when using print(record).
+        # Control how the record prints when printing
         return (f"Patient ID: {self.patient_id}, Name: {self.name}, Age: {self.age}, "
                 f"Diagnosis: {self.diagnosis}, Blood Pressure: {self.blood_pressure}, "
                 f"Pulse: {self.pulse}, Body Temperature: {self.body_temperature}")
@@ -30,7 +30,7 @@ class PatientRecordManagementSystem:
     def add_patient_record(self, patient_id, name, age, diagnosis,
                            blood_pressure, pulse, body_temperature):
         # Create a new patient record and insert it into the BST
-        # Avg runtime: O(h)
+        # Avg runtime O(height of tree)
         record = PatientRecord(patient_id, name, age, diagnosis,
                                blood_pressure, pulse, body_temperature)
         node = Node(patient_id, record)
@@ -38,18 +38,18 @@ class PatientRecordManagementSystem:
 
     def search_patient_record(self, patient_id):
         # Return the record for the given ID or None if not found
-        # Avg runtime: O(h)
+        # Avg runtime O(height of tree)
         node = self.bst.search(patient_id)
         return node.value if node else None
 
     def delete_patient_record(self, patient_id):
         # Remove a patient by ID if it exists in the tree. 
-        # Avg runtime: O(h)
+        # Avg runtime O(height of tree)
         self.bst.remove(patient_id)
 
     def display_all_records(self):
         # Print all records in sorted order using inorder traversal. 
-        # Runtime: O(n)
+        # Runtime O(n)
 
         def visit(node):
             # Visit function to print each node's value.
@@ -59,7 +59,7 @@ class PatientRecordManagementSystem:
 
     def build_tree_from_csv(self, file_path):
         # Read patient data from CSV and insert each row into the BST
-        # Runtime: O(n log n) avg
+        # Runtime O(n log n) avg
         with open(file_path, newline='') as csvfile:
             reader = csv.reader(csvfile)
             next(reader)  # Skip header row
@@ -78,14 +78,14 @@ class PatientRecordManagementSystem:
 
     def visualize_tree(self, filename="patient_records_tree"):
         # Create a Graphviz diagram of the BST and save as PNG
-        # Runtime: O(n)
+        # Runtime O(n)
         dot = Digraph()
         self._add_nodes(dot, self.bst.root)
         dot.render(filename, format='png', cleanup=True)
 
     def _add_nodes(self, dot, node):
         # Recursively add nodes and edges to the Graphviz object
-        # Runtime: O(n)
+        # Runtime O(n)
         if node is None:
             return
 

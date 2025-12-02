@@ -44,7 +44,7 @@ class BinarySearchTree:
             while current_node is not None: 
                 if node.key < current_node.key:
                     # If there is no left child, add the new
-                    # node here; otherwise repeat from the
+                    # node here, otherwise repeat from the
                     # left child.
                     if current_node.left is None:
                         current_node.left = node
@@ -53,7 +53,7 @@ class BinarySearchTree:
                         current_node = current_node.left
                 else:
                     # If there is no right child, add the new
-                    # node here; otherwise repeat from the
+                    # node here, otherwise repeat from the
                     # right child.
                     if current_node.right is None:
                         current_node.right = node
@@ -63,12 +63,13 @@ class BinarySearchTree:
    
     # Removes the node with the matching key from the tree.
     def remove(self, key):
-        # Public remove method. Avg runtime O(h)
+        # Public remove method
+        # Worst runtime O(height of tree)
         self.root = self._remove_recursive(self.root, key)
 
     def _remove_recursive(self, current_node, key):
         # Recursive helper to remove a node
-        # Avg runtime O(h)
+        # Worst runtime O(height of tree)
         if current_node is None:
             return None
 
@@ -94,19 +95,19 @@ class BinarySearchTree:
                 return current_node.left
 
             # Case 4: two children.
-            # Find inorder successor (smallest in right subtree).
+            # Find inorder successor (smallest in right subtree)
             successor = self._find_min(current_node.right)
-            # Copy successor's key and value into current node.
+            # Copy successor's key and value into current node
             current_node.key = successor.key
             current_node.value = successor.value
-            # Remove the successor from the right subtree.
+            # Remove the successor from the right subtree
             current_node.right = self._remove_recursive(current_node.right, successor.key)
 
         return current_node
 
     def _find_min(self, node):
         # Find smallest key in a subtree
-        # Worst runtime O(h)
+        # Worst runtime O(height of tree)
         while node.left is not None:
             node = node.left
         return node
@@ -115,22 +116,22 @@ class BinarySearchTree:
     # Inorder is left -> node -> right 
     # Runtime O(n) because each node is visited once
         if node is not None:
-            self.inorder_traversal(node.left, visit)   # visit left subtree
-            visit(node)                                # process current node
-            self.inorder_traversal(node.right, visit)  # visit right subtree
+            self.inorder_traversal(node.left, visit)   
+            visit(node)                                
+            self.inorder_traversal(node.right, visit)  
 
     def preorder_traversal(self, node, visit):
         # Preorder is node -> left -> right 
         # Runtime O(n) for a full tree traversal
         if node is not None:
-            visit(node)                                # process current node first
-            self.preorder_traversal(node.left, visit)  # visit left subtree
-            self.preorder_traversal(node.right, visit) # visit right subtree
+            visit(node)                               
+            self.preorder_traversal(node.left, visit) 
+            self.preorder_traversal(node.right, visit) 
 
     def postorder_traversal(self, node, visit):
         # Postorder is left -> right -> node 
         # Runtime O(n) because each node is visited once.
         if node is not None:
-            self.postorder_traversal(node.left, visit)  # visit left subtree
-            self.postorder_traversal(node.right, visit) # visit right subtree
-            visit(node)                                 # process node after children
+            self.postorder_traversal(node.left, visit)  
+            self.postorder_traversal(node.right, visit) 
+            visit(node)                                 
